@@ -1,42 +1,102 @@
-version: 2.1
+from tkinter import *
+from tkinter.ttk import Combobox
+from tkinter import messagebox
+from textblob import TextBlob
+root = Tk()
+root.geometry('500x400')
+root.title('Translator ')
+#root.iconbitmap('Translator.ico')
+root.resizable(False,False)
+root.configure(bg='turquoise1')
+lan_dict = {'afrikaans': 'af', 'albanian': 'sq', 'amharic': 'am', 'arabic': 'ar', 'armenian': 'hy', 'azerbaijani': 'az', 'basque': 'eu', 'belarusian': 'be', 'bengali': 'bn', 'bosnian': 'bs', 'bulgarian': 'bg', 'catalan': 'ca', 'cebuano': 'ceb', 'chichewa': 'ny', 'chinese (simplified)': 'zh-cn', 'chinese (traditional)': 'zh-tw', 'corsican': 'co', 'croatian': 'hr', 'czech': 'cs', 'danish': 'da', 'dutch': 'nl', 'english': 'en', 'esperanto': 'eo', 'estonian': 'et', 'filipino': 'tl', 'finnish': 'fi', 'french': 'fr', 'frisian': 'fy', 'galician': 'gl', 'georgian': 'ka', 'german': 'de', 'greek': 'el', 'gujarati': 'gu', 'haitian creole': 'ht', 'hausa': 'ha', 'hawaiian': 'haw', 'hebrew': 'iw', 'hindi': 'hi', 'hmong': 'hmn', 'hungarian': 'hu', 'icelandic': 'is', 'igbo': 'ig', 'indonesian': 'id', 'irish': 'ga', 'italian': 'it', 'japanese': 'ja', 'javanese': 'jw', 'kannada': 'kn', 'kazakh': 'kk', 'khmer': 'km', 'korean': 'ko', 'kurdish (kurmanji)': 'ku', 'kyrgyz': 'ky', 'lao': 'lo', 'latin': 'la', 'latvian': 'lv', 'lithuanian': 'lt', 'luxembourgish': 'lb', 'macedonian': 'mk', 'malagasy': 'mg', 'malay': 'ms', 'malayalam': 'ml', 'maltese': 'mt', 'maori': 'mi', 'marathi': 'mr', 'mongolian': 'mn', 'myanmar (burmese)': 'my', 'nepali': 'ne', 'norwegian': 'no', 'pashto': 'ps', 'persian': 'fa', 'polish': 'pl', 'portuguese': 'pt', 'punjabi': 'pa', 'romanian': 'ro', 'russian': 'ru', 'samoan': 'sm', 'scots gaelic': 'gd', 'serbian': 'sr', 'sesotho': 'st', 'shona': 'sn', 'sindhi': 'sd', 'sinhala': 'si', 'slovak': 'sk', 'slovenian': 'sl', 'somali': 'so', 'spanish': 'es', 'sundanese': 'su', 'swahili': 'sw', 'swedish': 'sv', 'tajik': 'tg', 'tamil': 'ta', 'telugu': 'te', 'thai': 'th', 'turkish': 'tr', 'ukrainian': 'uk', 'urdu': 'ur', 'uzbek': 'uz', 'vietnamese': 'vi', 'welsh': 'cy', 'xhosa': 'xh', 'yiddish': 'yi', 'yoruba': 'yo', 'zulu': 'zu', 'Filipino': 'fil', 'Hebrew': 'he'}
+def tt(event=None):
+    try:
+        word3 = TextBlob(varname1.get())
+        lan = word3.detect_language()
+        lan_todict = languages.get()
+        lan_to = lan_dict[lan_todict]
+        word3 = word3.translate(from_lang=lan,to=lan_to)
+        label3.configure(text=word3)
+        varname2.set(word3)
+    except:
+        varname2.set('try another keyword')
+def main_exit():
+    rr = messagebox.askyesnocancel('Notification','Are you want to exit !.',parent=root)
+    if(rr==True):
+        root.destroy()
+##################################################################  Binding functions
+def on_enterentry1(e):
+    entry1['bg'] = 'springgreen'
+def on_leaveentry1(e):
+    entry1['bg'] = 'white'
 
-orbs:
-  # The python orb contains a set of prepackaged circleci configuration you can use repeatedly in your configurations files
-  # Orb commands and jobs help you with common scripting around a language/tool
-  # so you dont have to copy and paste it everywhere.
-  # See the orb documentation here: https://circleci.com/developer/orbs/orb/circleci/python
-  python: circleci/python@1.2
+def on_enterentry2(e):
+    entry2['bg'] = 'springgreen'
+def on_leaveentry2(e):
+    entry2['bg'] = 'white'
 
-workflows:
-  sample:  # This is the name of the workflow, feel free to change it to better match your workflow.
-    # Inside the workflow, you define the jobs you want to run. 
-    # For more details on extending your workflow, see the configuration docs: https://circleci.com/docs/2.0/configuration-reference/#workflows 
-    jobs:
-      - build-and-test
+def on_enterbtn1(e):
+    btn1['bg'] = 'springgreen'
+def on_leavebtn1(e):
+    btn1['bg'] = 'yellow'
+
+def on_enterbtn2(e):
+    btn2['bg'] = 'springgreen'
+def on_leavebtn2(e):
+    btn2['bg'] = 'yellow'
+
+##########################################################################    ComboBox Languages
+languages = StringVar()
+font_box = Combobox(root,width=30,textvariable=languages,state='readonly')
+font_box['values'] = [e for e in lan_dict.keys()]
+font_box.current(37)
+font_box.place(x=300,y=0)
+###########################################################################  Entry Box
+varname1 = StringVar()
+entry1 = Entry(root,width=30,textvariable=varname1,font=('times',15,'italic bold'))
+entry1.place(x=150,y=40)
+
+varname2 = StringVar()
+entry2 = Entry(root,width=30,textvariable=varname2,font=('times',15,'italic bold'))
+entry2.place(x=150,y=100)
+############################################################################  Labels
+label1 = Label(root,text='Enter Words : ',font=('times',15,'italic bold'),bg='turquoise1')
+label1.place(x=5,y=40)
+
+label2 = Label(root,text='Translated : ',font=('times',15,'italic bold'),bg='turquoise1')
+label2.place(x=5,y=100)
+
+label3 = Label(root,text='',font=('times',15,'italic bold'),bg='turquoise1')
+label3.place(x=10,y=250)
+
+################################################################################  Buttons
+imgbt1 = PhotoImage(file='touch.png')
+imgbt2 = PhotoImage(file='logout.png')
+
+imgbt1 = imgbt1.subsample(2,2)
+imgbt2 = imgbt2.subsample(2,2)
+
+btn1 = Button(root,text='Click',bd=10,bg='yellow',activebackground='red',width=100,font=('times',15,'italic bold'),
+              image=imgbt1,compound=RIGHT,command=tt)
+btn1.place(x=70,y=170)
+
+btn2 = Button(root,text='Exit',bd=10,bg='yellow',activebackground='red',width=100,font=('times',15,'italic bold'),
+              image=imgbt2,compound=RIGHT,command=main_exit)
+btn2.place(x=280,y=170)
+root.bind('<Return>',tt)
+
+########################################################################### Binding
+entry1.bind('<Enter>',on_enterentry1)
+entry1.bind('<Leave>',on_leaveentry1)
+
+entry2.bind('<Enter>',on_enterentry2)
+entry2.bind('<Leave>',on_leaveentry2)
+
+btn1.bind('<Enter>',on_enterbtn1)
+btn1.bind('<Leave>',on_leavebtn1)
+
+btn2.bind('<Enter>',on_enterbtn2)
+btn2.bind('<Leave>',on_leavebtn2)
 
 
-jobs:
-  build-and-test:  # This is the name of the job, feel free to change it to better match what you're trying to do!
-    # These next lines defines a docker executors: https://circleci.com/docs/2.0/executor-types/
-    # You can specify an image from dockerhub or use one of the convenience images from CircleCI's Developer Hub
-    # A list of available CircleCI docker convenience images are available here: https://circleci.com/developer/images/image/cimg/python
-    # The executor is the environment in which the steps below will be executed - below will use a python 3.9 container
-    # Change the version below to your required version of python
-    docker:
-      - image: cimg/python:3.8
-    # Checkout the code as the first step. This is a dedicated CircleCI step.
-    # The python orb's install-packages step will install the dependencies from a Pipfile via Pipenv by default.
-    # Here we're making sure we use just use the system-wide pip. By default it uses the project root's requirements.txt.
-    # Then run your tests!
-    # CircleCI will report the results back to your VCS provider.
-    steps:
-      - checkout
-      - python/install-packages:
-          pkg-manager: pip
-          # app-dir: ~/project/package-directory/  # If you're requirements.txt isn't in the root directory.
-          # pip-dependency-file: test-requirements.txt  # if you have a different name for your requirements file, maybe one that combines your runtime and test requirements.
-      - run:
-          name: Run tests
-          # This assumes pytest is installed via the install-package step above
-          command: pytest
-
+root.mainloop()
